@@ -1,0 +1,2 @@
+<!--pages/page/page.wxml-->
+<text>page tpl{{hello}}</text>
