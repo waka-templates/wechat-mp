@@ -19,8 +19,7 @@ const del = require("del");
 const runSequence = require("run-sequence");
 const gulpif = require("gulp-if");
 const uglify = require("gulp-uglify");
-const asyncToRegenerate = require("./plugins/babel-plugin-transform-async-to-regenerate.js");
-const addModule = require("./plugins/babel-plugin-add-module");
+const addModule = require("./plugins/babel-preset-wx");
 
 const isProd = () => process.env.NODE_ENV === "production";
 
@@ -30,27 +29,8 @@ gulp.task("js", () =>
         .pipe(gulpif(!isProd, sourcemaps.init()))
         .pipe(
             babel({
-                presets: ["es2015", "stage-1"],
-                plugins: [
-                    "external-helpers",
-                    asyncToRegenerate,
-                    addModule,
-                    [
-                        "module-resolver",
-                        {
-                            extensions: [".js"],
-                            resolvePath(sourcePath, currentFile, opts) {
-                                if (/^@npm\/(.+)/.test(sourcePath)) {
-                                    return path.relative(
-                                        path.dirname(currentFile),
-                                        path.join(__dirname, "src", sourcePath.slice(1))
-                                    );
-                                }
-                                return sourcePath;
-                            }
-                        }
-                    ]
-                ],
+                presets: [addModule,"es2015", "stage-1"],
+                plugins: [],
                 ignore: ["src/npm"]
             })
         )
@@ -58,7 +38,7 @@ gulp.task("js", () =>
             gutil.log(gutil.colors.red("[Compilation Error]"));
             gutil.log(err.fileName + (err.loc ? `( ${err.loc.line}, ${err.loc.column} ): ` : ": "));
             gutil.log(gutil.colors.red(err.message));
-            util.log(err.codeFrame);
+            gutil.log(err.codeFrame);
             this.emit("end");
         })
         .pipe(gulpif(isProd, uglify()))
