@@ -15,34 +15,34 @@ const cssBase64 = require("gulp-css-base64");
 const gutil = require("gulp-util");
 const sass = require("gulp-sass");
 
+const notify = require('gulp-notify');
+const plumber = require('gulp-plumber');
 const del = require("del");
 const runSequence = require("run-sequence");
-const gulpif = require("gulp-if");
+const gulpIf = require("gulp-if");
 const uglify = require("gulp-uglify");
-const addModule = require("./plugins/babel-preset-wx");
+const gwcn = require('./copy-npm');
 
 const isProd = () => process.env.NODE_ENV === "production";
+
+const NODE_ENV = process.env.NODE_ENV;
+const debug = NODE_ENV != 'production' ? true : program.debug ? true : false;
 
 gulp.task("js", () =>
     gulp
         .src(["src/**/*.js"])
-        .pipe(gulpif(!isProd, sourcemaps.init()))
+        .pipe(gulpIf(debug, plumber({errorHandler: notify.onError("Babel Error: <%= error.message %>")})))
+        .pipe(gulpIf(!isProd, sourcemaps.init()))
         .pipe(
             babel({
-                presets: [addModule,"es2015", "stage-1"],
-                plugins: [],
+                presets: ["es2015", "stage-1"],
+                plugins: ['transform-runtime', 'transform-object-rest-spread'],
                 ignore: ["src/npm"]
             })
         )
-        .on("error", function(err) {
-            gutil.log(gutil.colors.red("[Compilation Error]"));
-            gutil.log(err.fileName + (err.loc ? `( ${err.loc.line}, ${err.loc.column} ): ` : ": "));
-            gutil.log(gutil.colors.red(err.message));
-            gutil.log(err.codeFrame);
-            this.emit("end");
-        })
-        .pipe(gulpif(isProd, uglify()))
-        .pipe(gulpif(!isProd, sourcemaps.write(".")))
+        .pipe(gwcn({}))
+        .pipe(gulpIf(isProd, uglify()))
+        .pipe(gulpIf(!isProd, sourcemaps.write(".")))
         .pipe(gulp.dest("dist"))
 );
 
@@ -50,7 +50,15 @@ gulp.task("wxml", () =>
     gulp
         .src(["src/**/*.{wxml,xml,html}"])
         .pipe(
-            gulpif(
+            gulpIf(
+                debug,
+                plumber({
+                    errorHandler: notify.onError('Wxml Check Error: <%= error.message %>')
+                })
+            )
+        )
+        .pipe(
+            gulpIf(
                 isProd,
                 htmlmin({
                     collapseWhitespace: true,
@@ -77,7 +85,7 @@ gulp.task("wxss", () =>
                 extensionsAllowed: [".png"]
             })
         )
-        .pipe(gulpif(isProd, cssnano()))
+        .pipe(gulpIf(isProd, cssnano()))
         .pipe(rename({ extname: ".wxss" }))
         .pipe(gulp.dest("dist"))
 );
@@ -85,14 +93,14 @@ gulp.task("wxss", () =>
 gulp.task("json", () =>
     gulp
         .src(["src/**/*.json"])
-        .pipe(gulpif(isProd, jsonminify()))
+        .pipe(gulpIf(isProd, jsonminify()))
         .pipe(gulp.dest("dist"))
 );
 
 gulp.task("image", () =>
     gulp
         .src(["src/**/*.{jpg,jpeg,png,gif,svg}"])
-        .pipe(gulpif(isProd, imagemin()))
+        .pipe(gulpIf(isProd, imagemin()))
         .pipe(gulp.dest("dist"))
 );
 
