@@ -4,7 +4,8 @@ Page({
      * 页面的初始数据
      */
     data: {
-        hello: "sss"
+        hello: "sss",
+        name:'ss'
     },
 
     /**
@@ -15,7 +16,9 @@ Page({
     /**
      * 生命周期函数--监听页面初次渲染完成
      */
-    onReady: function() {},
+    onReady: function() {
+        const {hello,...others} = this.data;
+    },
 
     /**
      * 生命周期函数--监听页面显示

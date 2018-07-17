@@ -1,9 +1,33 @@
 {
-  "extends": "airbnb-base",
+  "extends": ["airbnb-base","prettier"],
   "globals": {
     "Page": true,
     "Component": true,
+    "App":true,
     "wx": true,
-    "getApp": true
+    "getApp": true,
+    "getCurrentPages":true,
+    "Behavior": true
+  },
+  "rules": {
+    "import/prefer-default-export":1,
+    "one-var":"off",
+    "no-underscore-dangle":"off",
+    "no-plusplus":"off",
+    "camelcase":1,
+    "no-console":"off",
+    "no-empty":1,
+    "no-unused-expressions":1,
+    "no-multi-assign": "off",
+    "import/first":1,
+    "prefer-promise-reject-errors":1,
+    "import/extensions":"off",
+    "prefer-const":1,
+    "no-restricted-properties":"off",
+    "no-bitwise": "off",
+    "no-restricted-syntax":1,
+    "no-param-reassign": 1,
+    "no-nested-ternary": 1,
+    "no-control-regex":"off"
   }
 }

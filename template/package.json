@@ -6,8 +6,7 @@
   "author": "{{author}}",
   "license": "MIT",
   "scripts": {
-    "babel-help": "babel-external-helpers -t umd > ./src/npm/babel-help.js",
-    "dev": "npm run babel-help && cross-env NODE_ENV=development gulp watch",
+    "dev": "cross-env NODE_ENV=development gulp watch",
     "build": "cross-env NODE_ENV=production gulp build",
     "clean": "gulp clean",
     "doc": "esdoc",
@@ -28,63 +27,74 @@
         "babel-runtime": "^6.26.0"
     },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-helper-remap-async-to-generator": "^6.24.1",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-inline-replace-variables": "^1.3.1",
-    "babel-plugin-module-resolver": "^3.1.1",
-    "babel-plugin-replace-imports": "^1.0.2",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "chalk": "^2.4.1",
-    "cross-env": "^4.0.0",
-    "del": "^2.2.2",
-    "husky": "^1.0.0-rc.6",
-    "fs-extra": "^6.0.1",
-    "lint-staged": "^7.1.0",
-    "esdoc": "^1.1.0",
-    "esdoc-standard-plugin": "^1.0.0",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.1.3",
-    "eslint-plugin-import": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-css-base64": "^1.3.4",
-    "gulp-cssnano": "^2.1.2",
-    "gulp-htmlmin": "^3.0.0",
-    "gulp-if": "^2.0.2",
-    "gulp-imagemin": "^3.2.0",
-    "gulp-jsonminify": "^1.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.2.0",
-    "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "^2.5.1",
-    "gulp-uglify": "^2.1.2",
-    "gulp-util": "^3.0.8",
-    "istextorbinary": "^2.2.1",
-    "prettier": "^1.12.1",
-    "readable-stream": "^2.3.6",
-    "regenerator": "^0.12.3",
-    "replacestream": "^4.0.3",
-    "run-sequence": "^1.2.2",
-    "stylelint": "^7.10.1",
-    "stylelint-config-standard": "^16.0.0"{{#test}},
-    "babel-jest": "^20.0.3",
-    "jest": "^20.0.4",
-    "regenerator-runtime": "^0.10.5"{{/test}}
+        "ora": "^2.1.0",
+        "@commitlint/cli": "^7.0.0",
+        "@commitlint/config-conventional": "^7.0.1",
+        "babel-cli": "^6.24.1",
+        "babel-core": "^6.24.1",
+        "babel-helper-remap-async-to-generator": "^6.24.1",
+        "babel-plugin-external-helpers": "^6.22.0",
+        "babel-plugin-inline-replace-variables": "^1.3.1",
+        "babel-plugin-module-resolver": "^3.1.1",
+        "babel-plugin-replace-imports": "^1.0.2",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-stage-1": "^6.24.1",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "chalk": "^2.4.1",
+        "cross-env": "^4.0.0",
+        "del": "^2.2.2",
+        "husky": "^1.0.0-rc.6",
+        "fs-extra": "^6.0.1",
+        "lint-staged": "^7.1.0",
+        "esdoc": "^1.1.0",
+        "esdoc-standard-plugin": "^1.0.0",
+        "eslint": "^3.19.0",
+        "eslint-config-airbnb-base": "^11.1.3",
+        "eslint-plugin-import": "^2.2.0",
+        "eslint-config-prettier": "^2.9.0",
+        "gulp": "^3.9.1",
+        "gulp-babel": "^6.1.2",
+        "gulp-css-base64": "^1.3.4",
+        "gulp-cssnano": "^2.1.2",
+        "gulp-htmlmin": "^3.0.0",
+        "gulp-if": "^2.0.2",
+        "gulp-imagemin": "^3.2.0",
+        "gulp-jsonminify": "^1.0.0",
+        "gulp-rename": "^1.2.2",
+        "gulp-notify": "^3.2.0",
+        "gulp-plumber": "^1.2.0",
+        "gulp-sass": "^4.0.1",
+        "gulp-sourcemaps": "^2.5.1",
+        "gulp-uglify": "^2.1.2",
+        "gulp-util": "^3.0.8",
+        "istextorbinary": "^2.2.1",
+        "prettier": "^1.12.1",
+        "readable-stream": "^2.3.6",
+        "regenerator": "^0.12.3",
+        "replacestream": "^4.0.3",
+        "run-sequence": "^1.2.2",
+        "stylelint": "^7.10.1",
+        "standard-version": "^4.4.0",
+        "regenerator-runtime": "^0.10.5",
+        "stylelint-config-standard": "^16.0.0",{{#test}}
+        "babel-jest": "^20.0.3",
+        "jest": "^20.0.4",{{/test}}
+        "regenerator-runtime": "^0.10.5"
   },
-  "husky": {
-    "hooks": {
-        "pre-commit": "npm run lint"
-    }
-  },
-  "lint-staged": {
-        "src/**/*.js": ["eslint --fix", "git add"]
-  },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -e $GIT_PARAMS",
+            "pre-commit": "npm run lint"
+            }
+        },
+        "lint-staged": {
+            "src/**/*.js": [
+                "prettier --write",
+                "eslint --fix",
+                "git add"
+            ]
+    },
   "jest": {
     "transform": {
     },
@@ -98,7 +108,12 @@
     "dist","src","example","README.md"
   ],
   "engines": {
-    "node": ">= 5.0.0",
+    "node": ">= 8.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+    "standard-version": {
+        "scripts": {
+        "postchangelog": "npx replace 'http://git.sankuai.com/octopus/mall-wxapp' 'http://git.sankuai.com/projects/OCTOPUS/repos/mall-wxapp' CHANGELOG.md && npx replace 'mall-wxapp/compare/(v[0-9]+.[0-9]+.[0-9]+)...(v[0-9]+.[0-9]+.[0-9]+)' 'mall-wxapp/compare/commits?targetBranch=refs/tags/$1&sourceBranch=refs/tags/$2' CHANGELOG.md"
+        }
+    }
 }

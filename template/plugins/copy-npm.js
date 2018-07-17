@@ -108,21 +108,21 @@ const cn = {
 
     npmHack(code, filename) {
         switch (filename) {
-        // case 'lodash.js':
-        // case '_global.js':
-        //     code = code.replace("Function('return this')()", 'this');
-        //     break;
-        // case '_html.js':
-        //     code = 'module.exports = false;';
-        //     break;
-        // case '_microtask.js':
-        //     code = code.replace('if(Observer)', 'if(false && Observer)');
-        //     // IOS 1.10.2 Promise BUG
-        //     code = code.replace(
-        //         'Promise && Promise.resolve',
-        //         'false && Promise && Promise.resolve'
-        //     );
-        //     break;
+            // case 'lodash.js':
+            // case '_global.js':
+            //     code = code.replace("Function('return this')()", 'this');
+            //     break;
+            // case '_html.js':
+            //     code = 'module.exports = false;';
+            //     break;
+            // case '_microtask.js':
+            //     code = code.replace('if(Observer)', 'if(false && Observer)');
+            //     // IOS 1.10.2 Promise BUG
+            //     code = code.replace(
+            //         'Promise && Promise.resolve',
+            //         'false && Promise && Promise.resolve'
+            //     );
+            //     break;
         }
         return code;
     },
